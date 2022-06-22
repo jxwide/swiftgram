@@ -15,6 +15,16 @@ export class UsersService {
         return this.usersRepository.findOne({where: {username}})
     }
 
+    async findOneById(id: number) {
+        return this.usersRepository.findOne({where: {id}})
+    }
+
+    async findAll() {
+        return this.usersRepository.find({
+            relations: ["posts"],
+        })
+    }
+
     async create(createUserDto: CreateUserDto) {
         return this.usersRepository.save(createUserDto)
     }

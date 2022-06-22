@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { PostEntity } from '../../posts/entities/post.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -16,4 +17,18 @@ export class UserEntity {
 
     @Column()
     password: string;
+
+    @Column({nullable: true})
+    name?: string;
+
+    @Column({nullable: true})
+    description?: string;
+
+    @Column({nullable: true})
+    avatarSrc?: string;
+
+    // relations
+
+    @OneToMany(type => PostEntity, post => post.creator)
+    posts: PostEntity[]
 }
