@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { UserEntity } from '../../users/entities/user.entity';
 import { PhotoEntity } from '../../photos/entities/photo.entity';
+import { ReactionEntity } from '../../reactions/entities/reaction.entity';
 
 @Entity('posts')
 export class PostEntity {
@@ -34,4 +35,5 @@ export class PostEntity {
 
     @OneToMany(type => PhotoEntity, photo => photo.post)
     photos: PhotoEntity[];
+
 }

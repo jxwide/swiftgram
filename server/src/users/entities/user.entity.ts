@@ -1,5 +1,6 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { PostEntity } from '../../posts/entities/post.entity';
+import { ReactionEntity } from '../../reactions/entities/reaction.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -12,7 +13,7 @@ export class UserEntity {
     @UpdateDateColumn()
     updatedAt: Date
 
-    @Column()
+    @Column({unique: true})
     username: string;
 
     @Column()
@@ -31,4 +32,5 @@ export class UserEntity {
 
     @OneToMany(type => PostEntity, post => post.creator)
     posts: PostEntity[]
+
 }

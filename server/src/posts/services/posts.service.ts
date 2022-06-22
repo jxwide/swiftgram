@@ -13,9 +13,20 @@ export class PostsService {
         private usersService: UsersService
     ) {}
 
-    async create(createPostDto: CreatePostDto) {
-        const user = await this.usersService.findOneById(createPostDto.creatorId)
-        const {creatorId, ...postPayload} = createPostDto
-        return this.postsRepository.save({...postPayload, creator: user})
+    async create(createPostDto: CreatePostDto, creatorId: number) {
+        const user = await this.usersService.findOneById(creatorId)
+        if (user) {
+            const payload = {creatorId, ...createPostDto}
+            return this.postsRepository.save({...payload, creator: user})
+        } else return null
+    }
+
+    async findById(id: number) {
+        return this.postsRepository.findOne({
+            where: {id},
+            relations: [
+                "creator"
+            ]
+        })
     }
 }
