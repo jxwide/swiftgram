@@ -1,20 +1,45 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    ParseIntPipe,
+    Post,
+    Request,
+    UseGuards,
+} from '@nestjs/common';
 import { PostsService } from '../services/posts.service';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Controller('posts')
 export class PostsController {
-    constructor(private postsService: PostsService) {}
+    constructor(private postsService: PostsService) {
+    }
 
     @UseGuards(JwtAuthGuard)
     @Post('new')
     createPost(@Body() createPostDto: CreatePostDto, @Request() req) {
-        return this.postsService.create(createPostDto, req.user.id)
+        return this.postsService.create(createPostDto, req.user.id);
     }
 
-    @Get('test')
-    test() {
-        return this.postsService.findById(1)
+    @UseGuards(JwtAuthGuard)
+    @Delete('delete/:postId')
+    deletePost(@Param('postId', ParseIntPipe) postId, @Request() req) {
+        return this.postsService.delete(postId, req.user.id);
+    }
+
+    @Get('find/date/:range')
+    getPostsByDate(@Param('range') dateRange) {
+        if (dateRange != 'year' && dateRange != 'month' && dateRange != 'week' && dateRange != 'day') {
+            throw new BadRequestException('bad date range');
+        } else return this.postsService.getPostsByDate(dateRange);
+    }
+
+    @Get('test2')
+    test2() {
+        return this.postsService.findAll();
     }
 }
