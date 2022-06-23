@@ -10,12 +10,12 @@ export class CreateUserDto {
     @Length(6, 16)
     readonly password: string;
 
-    @MaxLength(32)
+    //@MaxLength(32)
     readonly name?: string;
 
-    @MaxLength(128)
+    //@MaxLength(128)
     readonly description?: string;
 
-    @MaxLength(256)
+    //@MaxLength(256)
     readonly avatarSrc?: string;
 }

@@ -1,13 +1,18 @@
-import { Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Request, UseGuards } from '@nestjs/common';
 import { ReactionsService } from '../services/reactions.service';
+import { NewReactionDto } from '../dto/new-reaction.dto';
+import { CreateReactionDto } from '../dto/create-reaction.dto';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
 @Controller('reactions')
 export class ReactionsController {
     constructor(private reactionsService: ReactionsService) {
     }
 
-    @Get('/:rtype/:userid/:postid')
-    newReaction(@Param('rtype') rtype, @Param('userid', ParseIntPipe) userid, @Param('postid', ParseIntPipe) postid) {
-        return this.reactionsService.newReaction(rtype, postid, userid)
+    @UseGuards(JwtAuthGuard)
+    @Post('new')
+    newReaction(@Body() newReactionDto: NewReactionDto, @Request() req) {
+        const { postId, ...createReactionDto } = newReactionDto;
+        return this.reactionsService.newReaction(createReactionDto, postId, req.user.id);
     }
 }

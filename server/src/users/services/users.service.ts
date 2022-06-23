@@ -22,7 +22,7 @@ export class UsersService {
 
     async findAll() {
         return this.usersRepository.find({
-            relations: ['posts', 'reactions.creator'],
+            relations: ['posts', 'reactions.creator', 'reactions.post'],
         });
     }
 

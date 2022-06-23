@@ -27,11 +27,7 @@ export class ReactionEntity {
     @Column({ nullable: true })
     text?: string; // only for comment
 
-    // relations userId postId
-    //
-    // creator: UserEntity;
-    //
-    // post: PostEntity;
+    // relations
 
     @ManyToOne(type => UserEntity, user => user.reactions, { cascade: true })
     @JoinTable()
