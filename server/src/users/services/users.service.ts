@@ -9,23 +9,24 @@ export class UsersService {
     constructor(
         @InjectRepository(UserEntity)
         private usersRepository: Repository<UserEntity>,
-    ) {}
+    ) {
+    }
 
     async findOne(username: string) {
-        return this.usersRepository.findOne({where: {username}})
+        return this.usersRepository.findOne({ where: { username } });
     }
 
     async findOneById(id: number) {
-        return this.usersRepository.findOne({where: {id}})
+        return this.usersRepository.findOne({ where: { id } });
     }
 
     async findAll() {
         return this.usersRepository.find({
-            relations: ["posts"],
-        })
+            relations: ['posts', 'reactions.creator'],
+        });
     }
 
     async create(createUserDto: CreateUserDto) {
-        return this.usersRepository.save(createUserDto)
+        return this.usersRepository.save(createUserDto);
     }
 }

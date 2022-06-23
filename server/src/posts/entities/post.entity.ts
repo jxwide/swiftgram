@@ -15,25 +15,27 @@ import { ReactionEntity } from '../../reactions/entities/reaction.entity';
 @Entity('posts')
 export class PostEntity {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @CreateDateColumn()
-    createdAt: Date
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date
+    updatedAt: Date;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     description?: string;
 
     // relations
     // photos, likes, comments, creatorId
 
-    @ManyToOne(type => UserEntity, creator => creator.posts, {cascade: true})
+    @ManyToOne(type => UserEntity, creator => creator.posts, { cascade: true })
     @JoinTable()
     creator: UserEntity;
 
     @OneToMany(type => PhotoEntity, photo => photo.post)
     photos: PhotoEntity[];
 
+    @OneToMany(type => ReactionEntity, reaction => reaction.creator)
+    reactions: ReactionEntity[];
 }

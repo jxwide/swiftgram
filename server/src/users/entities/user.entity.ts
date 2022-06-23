@@ -5,32 +5,34 @@ import { ReactionEntity } from '../../reactions/entities/reaction.entity';
 @Entity('users')
 export class UserEntity {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @CreateDateColumn()
-    createdAt: Date
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date
+    updatedAt: Date;
 
-    @Column({unique: true})
+    @Column({ unique: true })
     username: string;
 
     @Column()
     password: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     name?: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     description?: string;
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     avatarSrc?: string;
 
     // relations
 
     @OneToMany(type => PostEntity, post => post.creator)
-    posts: PostEntity[]
+    posts: PostEntity[];
 
+    @OneToMany(type => ReactionEntity, reaction => reaction.creator)
+    reactions: ReactionEntity[];
 }

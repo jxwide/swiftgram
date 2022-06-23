@@ -40,7 +40,7 @@ export class PostsService {
 
     async findAll() {
         return this.postsRepository.find({
-            relations: ['creator'],
+            relations: ['creator', 'reactions'],
         });
     }
 

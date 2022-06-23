@@ -13,18 +13,18 @@ import { PostEntity } from '../../posts/entities/post.entity';
 @Entity('reactions')
 export class ReactionEntity {
     @PrimaryGeneratedColumn()
-    id: number
+    id: number;
 
     @CreateDateColumn()
-    createdAt: Date
+    createdAt: Date;
 
     @UpdateDateColumn()
-    updatedAt: Date
+    updatedAt: Date;
 
-    @Column({default: 'like'})
+    @Column({ default: 'like' })
     rType: string; // like || comment || ...other
 
-    @Column({nullable: true})
+    @Column({ nullable: true })
     text?: string; // only for comment
 
     // relations userId postId
@@ -32,4 +32,12 @@ export class ReactionEntity {
     // creator: UserEntity;
     //
     // post: PostEntity;
+
+    @ManyToOne(type => UserEntity, user => user.reactions, { cascade: true })
+    @JoinTable()
+    creator: UserEntity;
+
+    @ManyToOne(type => PostEntity, post => post.reactions, { cascade: true })
+    @JoinTable()
+    post: PostEntity;
 }

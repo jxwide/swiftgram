@@ -38,7 +38,7 @@ export class PostsController {
         } else return this.postsService.getPostsByDate(dateRange);
     }
 
-    @Get('test2')
+    @Get('findall')
     test2() {
         return this.postsService.findAll();
     }
