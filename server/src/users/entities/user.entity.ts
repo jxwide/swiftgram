@@ -1,6 +1,16 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinTable,
+    ManyToMany,
+    OneToMany,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 import { PostEntity } from '../../posts/entities/post.entity';
 import { ReactionEntity } from '../../reactions/entities/reaction.entity';
+import { SubscriptionsEntity } from '../../subs/entities/subs.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -35,4 +45,10 @@ export class UserEntity {
 
     @OneToMany(type => ReactionEntity, reaction => reaction.creator)
     reactions: ReactionEntity[];
+
+    @OneToMany(type => SubscriptionsEntity, sub => sub.initiator)
+    subscriptions: SubscriptionsEntity[];
+
+    @OneToMany(type => SubscriptionsEntity, sub => sub.target)
+    subscribers: SubscriptionsEntity[];
 }

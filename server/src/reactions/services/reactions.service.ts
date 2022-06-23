@@ -19,7 +19,7 @@ export class ReactionsService {
     async newReaction(createReactionDto: CreateReactionDto, postId: number, userId: number) {
         const user = await this.usersService.findOneById(userId);
         const post = await this.postsService.findById(postId);
-        if (!user && !post) return null;
+        if (!user || !post) return null;
 
         if (createReactionDto.rType == 'like') {
             let likeReactions = await this.reactionsRepository.find({

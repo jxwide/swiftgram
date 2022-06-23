@@ -16,13 +16,19 @@ export class UsersService {
         return this.usersRepository.findOne({ where: { username } });
     }
 
-    async findOneById(id: number) {
+    async findOneById(id: number, subRelation?: boolean) {
+        if (subRelation) {
+            return this.usersRepository.findOne({
+                where: { id },
+                relations: ['subscriptions'],
+            });
+        }
         return this.usersRepository.findOne({ where: { id } });
     }
 
     async findAll() {
         return this.usersRepository.find({
-            relations: ['posts', 'reactions.creator', 'reactions.post'],
+            relations: ['posts', 'reactions.creator', 'reactions.post', 'subscriptions', 'subscribers'],
         });
     }
 
