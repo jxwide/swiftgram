@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { CreateUserDto } from '../../auth/dto/create-user.dto';
+import {UpdateSecInfoDto} from "../dto/update-sec-info.dto";
 
 @Injectable()
 export class UsersService {
@@ -34,5 +35,9 @@ export class UsersService {
 
     async create(createUserDto: CreateUserDto) {
         return this.usersRepository.save(createUserDto);
+    }
+
+    async updateSecondaryInfo(updateSecInfoDto: UpdateSecInfoDto, userId) {
+        return this.usersRepository.update({id: userId}, updateSecInfoDto)
     }
 }

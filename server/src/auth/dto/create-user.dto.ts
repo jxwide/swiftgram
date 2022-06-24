@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, Length, MaxLength } from 'class-validator';
+import {IsNotEmpty, IsOptional, IsString, Length, MaxLength} from 'class-validator';
 
 export class CreateUserDto {
     @IsNotEmpty()
@@ -10,12 +10,15 @@ export class CreateUserDto {
     @Length(6, 16)
     readonly password: string;
 
-    //@MaxLength(32)
+    @MaxLength(32)
+    @IsOptional()
     readonly name?: string;
 
-    //@MaxLength(128)
+    @MaxLength(128)
+    @IsOptional()
     readonly description?: string;
 
-    //@MaxLength(256)
+    @MaxLength(256)
+    @IsOptional()
     readonly avatarSrc?: string;
 }
