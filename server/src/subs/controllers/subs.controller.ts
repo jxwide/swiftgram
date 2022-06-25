@@ -1,4 +1,4 @@
-import { Controller, Get, Param, ParseIntPipe, Request, UseGuards } from '@nestjs/common';
+import {Controller, Delete, Get, Param, ParseIntPipe, Request, UseGuards} from '@nestjs/common';
 import { SubsService } from '../services/subs.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 
@@ -11,5 +11,11 @@ export class SubsController {
     @Get('new/:targetId')
     makeSubscribe(@Param('targetId', ParseIntPipe) targetId, @Request() req) {
         return this.subsService.newSubscription(req.user.id, targetId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':targetId')
+    removeSubscribeFrom(@Param('targetId', ParseIntPipe) targetId, @Request() req) {
+        return this.subsService.findAndRemoveSubscription(req.user.id, targetId)
     }
 }

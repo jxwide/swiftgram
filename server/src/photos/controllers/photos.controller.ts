@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Request, UseGuards} from '@nestjs/common';
 import { PhotosService } from '../services/photos.service';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { CreatePhotoDto } from '../dto/create-photo.dto';
@@ -17,4 +17,15 @@ export class PhotosController {
             postId: newPhotoDto.postId
         })
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('id/:photoId')
+    removePhoto(@Param('photoId', ParseIntPipe) photoId, @Request() req) {
+        return this.photosService.deletePhoto(photoId, req.user.id)
+    }
+
+    // @Get('test')
+    // test() {
+    //     return this.photosService.findAll()
+    // }
 }

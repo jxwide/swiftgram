@@ -14,12 +14,6 @@ export class AuthController {
         return this.authService.login(req.user);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Get('prof')
-    getProfile(@Request() req) {
-        return req.user;
-    }
-
     @Post('singup')
     async singup(@Body() createUserDto: CreateUserDto) {
         return this.authService.singup(createUserDto)

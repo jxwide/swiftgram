@@ -31,4 +31,26 @@ export class SubsService {
             target,
         });
     }
+
+    async removeSubscription(subId: number, userId?: number) {
+        const subscription = await this.subsRepository.findOne({
+            where: {id: subId},
+            relations: ['initiator']
+        })
+        if (!subscription) throw new BadRequestException('subscription not found')
+        if (userId && subscription.initiator.id != userId) throw new BadRequestException('unauthorized')
+        return this.subsRepository.delete({id: subId})
+    }
+
+    async findAndRemoveSubscription(initiatorId: number, targetId: number) {
+        const subscription = await this.subsRepository.findOne({
+            where: {
+                initiator: {id: initiatorId},
+                target: {id: targetId}
+            },
+            relations: ['initiator', 'target']
+        })
+        if (!subscription) throw new BadRequestException('subscription not found')
+        return this.subsRepository.delete({id: subscription.id})
+    }
 }

@@ -20,26 +20,26 @@ export class PostsController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Post('new')
+    @Post()
     createPost(@Body() createPostDto: CreatePostDto, @Request() req) {
         return this.postsService.create(createPostDto, req.user.id);
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete('delete/:postId')
+    @Delete(':postId')
     deletePost(@Param('postId', ParseIntPipe) postId, @Request() req) {
         return this.postsService.delete(postId, req.user.id);
     }
 
-    @Get('find/date/:range')
+    @Get('date/:range')
     getPostsByDate(@Param('range') dateRange) {
         if (dateRange != 'year' && dateRange != 'month' && dateRange != 'week' && dateRange != 'day') {
             throw new BadRequestException('bad date range');
         } else return this.postsService.getPostsByDate(dateRange);
     }
 
-    @Get('findall')
-    test2() {
-        return this.postsService.findAll();
-    }
+    // @Get('findall')
+    // test2() {
+    //     return this.postsService.findAll();
+    // }
 }

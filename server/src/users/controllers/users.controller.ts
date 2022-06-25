@@ -14,9 +14,8 @@ export class UsersController {
         return this.usersService.updateSecondaryInfo(updateSecInfoDto, req.user.id)
     }
 
-    // endpoints for test
-    @Get('findall')
-    findAll() {
-        return this.usersService.findAll()
-    }
+    // @Get('findall')
+    // findAll() {
+    //     return this.usersService.findAll()
+    // }
 }

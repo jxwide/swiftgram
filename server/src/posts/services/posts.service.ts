@@ -27,6 +27,7 @@ export class PostsService {
             where: { id: postId },
             relations: ['creator'],
         });
+        if (!post) throw new BadRequestException('post not found')
         if (post.creator.id != userId) throw new BadRequestException('unauthorized');
         return this.postsRepository.delete({ id: postId });
     }

@@ -29,7 +29,10 @@ export class PostEntity {
     // relations
     // photos, likes, comments, creatorId
 
-    @ManyToOne(type => UserEntity, creator => creator.posts, { cascade: true })
+    @ManyToOne(type => UserEntity, creator => creator.posts, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     creator: UserEntity;
 

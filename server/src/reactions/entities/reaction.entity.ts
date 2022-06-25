@@ -29,11 +29,17 @@ export class ReactionEntity {
 
     // relations
 
-    @ManyToOne(type => UserEntity, user => user.reactions, { cascade: true })
+    @ManyToOne(type => UserEntity, user => user.reactions, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     creator: UserEntity;
 
-    @ManyToOne(type => PostEntity, post => post.reactions, { cascade: true })
+    @ManyToOne(type => PostEntity, post => post.reactions, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     post: PostEntity;
 }

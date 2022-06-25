@@ -18,11 +18,17 @@ export class SubscriptionsEntity {
     @UpdateDateColumn()
     updatedAt: Date;
 
-    @ManyToOne(type => UserEntity, user => user.subscriptions)
+    @ManyToOne(type => UserEntity, user => user.subscriptions, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     initiator: UserEntity;
 
-    @ManyToOne(type => UserEntity, user => user.subscriptions)
+    @ManyToOne(type => UserEntity, user => user.subscriptions, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     target: UserEntity;
 }

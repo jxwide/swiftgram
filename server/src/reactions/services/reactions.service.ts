@@ -38,4 +38,29 @@ export class ReactionsService {
             post: post,
         });
     }
+
+    async removeReactionById(id: number, userId?: number) {
+        if (userId) {
+            // checking whether the user is the owner of the reaction
+            const reaction = await this.reactionsRepository.findOne({where: {
+                id,
+                creator: {id: userId}
+            }})
+            if (!reaction) throw new BadRequestException('Unauthorized')
+        }
+        return this.reactionsRepository.delete({id})
+    }
+
+    async removeAllUserReactions(userId: number) {
+        return this.reactionsRepository.delete({
+            creator: {id: userId}
+        })
+    }
+
+    async removeAllUserReactionsFromPost(userId: number, postId: number) {
+        return this.reactionsRepository.delete({
+            creator: {id: userId},
+            post: {id: postId}
+        })
+    }
 }

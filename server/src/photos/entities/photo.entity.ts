@@ -25,7 +25,10 @@ export class PhotoEntity {
 
     // relations
 
-    @ManyToOne(type => PostEntity, post => post.photos, {cascade: true})
+    @ManyToOne(type => PostEntity, post => post.photos, {
+        cascade: true,
+        onDelete: "CASCADE",
+    })
     @JoinTable()
     post: PostEntity;
 }

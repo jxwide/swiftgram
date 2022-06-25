@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {BadRequestException, Injectable} from '@nestjs/common';
 import { UsersService } from '../../users/services/users.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -31,6 +31,8 @@ export class AuthService {
     async singup(createUserDto: CreateUserDto) {
         const hashPassword = await bcrypt.hash(createUserDto.password, 3);
         const {password, ...payload} = createUserDto
+        const candidate = await this.usersService.findOne(createUserDto.username)
+        if (candidate) throw new BadRequestException('the username is already in use')
         const user = await this.usersService.create({...payload, password: hashPassword})
         return {
             access_token: this.jwtService.sign(user),
